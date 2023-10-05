@@ -5,40 +5,36 @@ public class Calculadora {
 	private String operator;
 	private String number;
 	private String result;
+	
+	/**
+	 * Calcula el resultado de una cadena que contiene números y operadores + y -.
+	 *
+	 * @param result La cadena de entrada que contiene la operacion a calcular.
+	 * @return El resultado de la expresión como una cadena.
+	 */
 
 	public static String calcularTextArea(String result) {
-	    double resultado = 0;
-	    String number = "";
-	    char operador = '+';
+	    double number = 0;
+	    int posicion = 0;
 
 	    for (int i = 0; i < result.length(); i++) {
-	        char caracter = result.charAt(i);
-
-	        if (Character.isDigit(caracter)){
-	            number += caracter;
+	        if (result.charAt(i) == '+' || result.charAt(i) == '-') {
+	        	// Si encontramos un carácter de suma (+) o resta (-),
+	        	 // Utilizamos el método substring para extraer la subcadena que contiene el número
+	        	// desde la posición 'posicion' (el inicio del número, 0) hasta 'i' (justo antes del operador).
+	        	// Luego, convertimos esa subcadena en un número double
+	            number += Double.parseDouble(result.substring(posicion, i));
 	            
-	        } else if (caracter == '+' || caracter == '-'){
-	            double numero = Double.parseDouble(number);
-
-	            if (operador == '+') {
-	                resultado += numero;
-	            } else if (operador == '-'){
-	                resultado -= numero;
-	            }
-
-	            operador = caracter;
-	            number = "";
+	            // Actualizamos 'posicion' para apuntar al carácter la posicion del operador.
+	            posicion = i; // en este momento, 'posicion' adquiere el valor actual de 'i'
 	        }
 	    }
 
-	    double numeroFinal = Double.parseDouble(number);
-	    if (operador == '+') {
-	        resultado += numeroFinal;
-	    } else if (operador == '-') {
-	        resultado -= numeroFinal;
-	    }
+	    // Suma el último número en la cadena result al número existente.
+	    // Esto asegura que el último número se incluya en el cálculo,
+	    number += Double.parseDouble(result.substring(posicion));
 
-	    return String.valueOf(resultado);
+	    return String.valueOf(number);
 	}
 }
 
